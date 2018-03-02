@@ -1,0 +1,2 @@
+network:
+    base_url: "https://httpbin.org/" # Keep the '/' at the end

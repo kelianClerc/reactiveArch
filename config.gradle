@@ -1,0 +1,18 @@
+ext.release = [
+    versionCode : 1,
+    versionName : "1.0",
+]
+
+ext.androidConfig = [
+    compileSdk : 27,
+    buildTools : '27.0.3',
+    minSdk : 19,
+    targetSdk : 27,
+    appId : "com.fabernovel.technologies"
+]
+
+ext.versions = [
+    kotlin : '1.2.21',
+    androidSupport : '27.0.2',
+    androidGradle : '3.0.1',
+]

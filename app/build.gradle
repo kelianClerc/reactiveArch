@@ -1,0 +1,107 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.polidea.android.config'
+apply plugin: 'composer'
+
+apply from: '../config.gradle'
+apply from: 'helpers.gradle'
+
+composer {
+    variants "stubsDebug"
+    configs {
+        stubsDebug {
+            shard false
+            devicePattern 'emulator-.+'
+            instrumentationArgument('listener', 'com.fabernovel.technologies.utils.ClearSpoonScreenshotsRunListener')
+            outputDirectory "fastlane/test_output/composer/${new Date().format("yyyy-MM-dd'T'HH:mm:ss")}"
+        }
+    }
+}
+
+android {
+    compileSdkVersion androidConfig.compileSdk
+    buildToolsVersion androidConfig.buildTools
+
+    defaultConfig {
+        applicationId androidConfig.appId
+        minSdkVersion androidConfig.minSdk
+        targetSdkVersion androidConfig.targetSdk
+        versionCode release.versionCode
+        versionName release.versionName
+        resConfigs "en", "fr"
+        multiDexEnabled true
+        testInstrumentationRunner "com.fabernovel.technologies.utils.RandomUserReactiveRunner"
+    }
+
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "4g"
+        dexInProcess true
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "failed", "skipped"
+            }
+        }
+        animationsDisabled true
+    }
+
+    testBuildType "debug"
+
+    flavorDimensions "env"
+
+    productFlavors {
+        stubs { dimension "env" }
+        preprod { dimension "env" }
+        prod { dimension "env" }
+    }
+
+    variantFilter associateProdWithRelease
+
+    signingConfigs {
+        release {
+            Properties props = new Properties()
+            props.load(new FileInputStream(file("../keystores/release.properties")))
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+        }
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles getProguardConfigForLibraries()
+        }
+        distrib {
+            initWith debug
+            shrinkResources true
+            minifyEnabled true
+        }
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles getProguardConfigForLibraries()
+        }
+    }
+
+    decorateFlavors()
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+apply from: 'dependencies.gradle'
+apply from: 'tasks.gradle'

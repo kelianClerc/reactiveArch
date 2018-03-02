@@ -1,0 +1,4 @@
+network:
+    base_url: "https://httpbin.org/" # Keep the '/' at the end
+crashes:
+    app_id: "my-hockeyapp-id" # HockeyApp stubs distrib AppID

@@ -1,0 +1,20 @@
+network:
+    base_url: "https://httpbin.org/" # Keep the '/' at the end
+    timeout_seconds: 10
+    cache:
+        size_mb: 10
+        enabled: true
+    logging:
+        enabled: false
+        level: NONE # HttpLoggingInterceptor.Level{NONE, BASIC, HEADERS, BODY}
+logging:
+    enabled: false
+    show_hashs: false
+performance:
+    show_memory_leaks: false
+    chuck: false
+crashes:
+    enabled: true
+    additional_data: false
+    max_trace: 200
+    app_id: "00000000000000000000000000000000" # HockeyApp prod release AppID

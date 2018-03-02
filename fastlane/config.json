@@ -1,0 +1,18 @@
+{
+    "global_config": {
+        "hockeyapp_api_token": "TODO",
+        "slack_hook_url": "TODO_OR_REMOVE"
+    },
+    "apps": [
+        {
+            "target": "RandomUserReactive",
+            "bundle_id": "com.fabernovel.technologies.RandomUserReactive",
+            "hockeyapp": {
+                "stubsDistrib": null,
+                "preprodDistrib": null,
+                "prodDistrib": null,
+                "prodRelease": null
+            }
+        }
+    ]
+}

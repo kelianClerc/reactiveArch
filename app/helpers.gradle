@@ -1,0 +1,57 @@
+def associateProdWithRelease(variant) {
+    def isRelease = variant.buildType.name == 'release'
+    def isProd = variant.getFlavors().get(0).name == 'prod'
+
+    if (isRelease) {
+        variant.setIgnore(!isProd)
+    }
+}
+
+def getProguardConfigForLibraries() {
+    // Get library specific files from here:
+    // https://github.com/krschultz/android-proguard-snippets/tree/master/libraries
+    // Adding .asList().toArray() as a workaround for this issue
+    // https://code.google.com/p/android/issues/detail?id=212882
+    fileTree(dir: 'proguard', include: ['proguard-*.pro']).asList().toArray()
+}
+
+def decorateFlavors() {
+    android.buildTypes.all { type ->
+
+        if (!type.debuggable) {
+            return
+        }
+
+        def version = android.defaultConfig.versionCode
+        def sha1 = 'git rev-parse --short HEAD'.execute().text.trim()
+
+        applicationIdSuffix = ".${type.name}"
+        versionNameSuffix = "-${version}-${sha1}-${type.name}"
+    }
+    android.productFlavors.all { flavor ->
+        String name = flavor.name
+
+        if ("prod" == name) {
+            return
+        }
+
+        applicationId = appendedApplicationId(name)
+        versionName = appendedVersionName(name)
+    }
+}
+
+private String appendedVersionName(String name) {
+    android.defaultConfig.versionName + toAppend(name, "-")
+}
+
+private String appendedApplicationId(String name) {
+    android.defaultConfig.applicationId + toAppend(name, ".")
+}
+
+private String toAppend(String name, String sep) {
+    name.isEmpty() ? "" : sep + name
+}
+
+ext.associateProdWithRelease = this.&associateProdWithRelease
+ext.decorateFlavors = this.&decorateFlavors
+ext.getProguardConfigForLibraries = this.&getProguardConfigForLibraries

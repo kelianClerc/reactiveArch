@@ -1,0 +1,5 @@
+import_from_git(
+	url: 'ssh://git@codereview.technologies.fabernovel.com:29418/ADFastlane',
+    path: 'android/fastlane/Fastfile',
+    branch: 'android_v2.0.+'
+)
