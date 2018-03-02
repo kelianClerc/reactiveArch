@@ -9,6 +9,7 @@ import com.fabernovel.technologies.app.common.UiState
 import com.fabernovel.technologies.utils.ThemeUtils
 import com.fabernovel.technologies.utils.observe
 import com.jakewharton.rxbinding2.view.clicks
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_example.*
 
 class ExampleActivity : BaseActivity<ExampleUiEvent, ExampleViewModel, RandomUserReactiveScreen.Example>() {
@@ -30,7 +31,9 @@ class ExampleActivity : BaseActivity<ExampleUiEvent, ExampleViewModel, RandomUse
     }
 
     private fun bindEvents() {
-        viewModel.events = button.clicks().map { ExampleUiEvent.Refresh as ExampleUiEvent }
+        val buttonEvent = button.clicks().map { ExampleUiEvent.Refresh as ExampleUiEvent }
+        val userButtonEvent = goToUser.clicks().map { ExampleUiEvent.GoToUsers as ExampleUiEvent }
+        viewModel.events = Observable.merge(buttonEvent, userButtonEvent)
     }
 
     private fun showState(state: UiState) = when (state) {

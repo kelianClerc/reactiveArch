@@ -54,8 +54,14 @@ class ExampleViewModel @Inject internal constructor(
             .map { RandomUserReactiveScreen.ExampleDetail(it.id) }
             .doOnNext { navigator.goForward(it) }
 
+        val userFlow = eventFlow
+            .ofType<ExampleUiEvent.GoToUsers>()
+            .map { RandomUserReactiveScreen.Main }
+            .doOnNext { navigator.goForward(it) }
+
         content = fromPublisher(contentFlow)
         state = fromPublisher(stateFlow)
         disposables.add(navigationFlow.subscribe())
+        disposables.add(userFlow.subscribe())
     }
 }

@@ -42,6 +42,13 @@
                 android:text="Next"
                 android:layout_gravity="center"
                 />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goToUser"
+                android:text="@string/save_label"
+                android:layout_gravity="center"
+                />
         </LinearLayout>
     </com.fabernovel.technologies.utils.StatefulLayout>
 </android.support.constraint.ConstraintLayout>
