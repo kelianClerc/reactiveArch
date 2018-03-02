@@ -4,10 +4,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.polidea.android.config'
 apply plugin: 'composer'
-
 apply from: '../config.gradle'
 apply from: 'helpers.gradle'
-
 composer {
     variants "stubsDebug"
     configs {
@@ -19,7 +17,6 @@ composer {
         }
     }
 }
-
 android {
     compileSdkVersion androidConfig.compileSdk
     buildToolsVersion androidConfig.buildTools
@@ -102,6 +99,5 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
 apply from: 'dependencies.gradle'
 apply from: 'tasks.gradle'
