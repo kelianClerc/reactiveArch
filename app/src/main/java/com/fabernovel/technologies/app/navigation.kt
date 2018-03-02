@@ -1,6 +1,7 @@
 package com.fabernovel.technologies.app
 
 import com.fabernovel.technologies.app.example.ExampleActivity
+import com.fabernovel.technologies.app.main.MainActivity
 import me.aartikov.alligator.AndroidNavigator
 import me.aartikov.alligator.NavigationFactory
 import me.aartikov.alligator.Screen
@@ -18,6 +19,7 @@ sealed class RandomUserReactiveScreen : Screen, Serializable {
 
     object Example : RandomUserReactiveScreen()
     data class ExampleDetail(val id: String) : RandomUserReactiveScreen()
+    object Main: RandomUserReactiveScreen()
 }
 
 class RandomUserReactiveNavigationFactory : RegistryNavigationFactory() {
@@ -27,6 +29,7 @@ class RandomUserReactiveNavigationFactory : RegistryNavigationFactory() {
         // its corresponding Activity, Fragment or custom function.
 
         registerActivity(RandomUserReactiveScreen.Example::class.java, ExampleActivity::class.java)
+        registerActivity(RandomUserReactiveScreen.Main::class.java, MainActivity::class.java)
     }
 }
 
