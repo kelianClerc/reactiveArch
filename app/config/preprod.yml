@@ -1,2 +1,2 @@
 network:
-    base_url: "https://httpbin.org/" # Keep the '/' at the end
+    base_url: "http://randomuser.me/" # Keep the '/' at the end
