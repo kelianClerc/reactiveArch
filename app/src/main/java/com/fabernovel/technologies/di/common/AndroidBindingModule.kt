@@ -3,8 +3,10 @@ package com.fabernovel.technologies.di.common
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.fabernovel.technologies.app.example.ExampleActivity
-import com.fabernovel.technologies.di.subcomponents.ExampleModule
+import com.fabernovel.technologies.app.main.MainActivity
 import com.fabernovel.technologies.di.PerActivity
+import com.fabernovel.technologies.di.subcomponents.ExampleModule
+import com.fabernovel.technologies.di.subcomponents.MainModule
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -19,6 +21,10 @@ abstract class AndroidBindingModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [ExampleModule::class])
     internal abstract fun contributeExampleActivity(): ExampleActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [MainModule::class])
+    internal abstract fun contributeMainActivity(): MainActivity
 }
 
 @MustBeDocumented
